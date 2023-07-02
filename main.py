@@ -23,8 +23,16 @@ def convert(string):
     return (str): The string that will be converted to regional indicators
         by discord.
     """
-    output = ""
-    for character in list(string):
+    output, processing_emoji = "", False
+    for char_index in range(0, len(string)):
+        character = string[char_index]
+
+        if character == ":":
+            processing_emoji = not processing_emoji
+        if processing_emoji and ":" in string[char_index:]:
+            output += character
+            continue
+
         if character.lower() in ALPHABET:
             output += f":regional_indicator_{character.lower()}:"
         elif character == " ":
