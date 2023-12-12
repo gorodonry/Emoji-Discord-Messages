@@ -24,27 +24,46 @@ def convert(string):
         by discord.
     """
     output, processing_emoji = "", False
+
     for char_index in range(0, len(string)):
         character = string[char_index]
 
         if character == ":":
             processing_emoji = not processing_emoji
+
         if processing_emoji and ":" in string[char_index:]:
             output += character
             continue
 
         if character.lower() in ALPHABET:
             output += f":regional_indicator_{character.lower()}:"
+        elif character in NUMBERS.keys():
+            output += NUMBERS[character]
         elif character == " ":
             output += ":blue_square:"
         else:
             output = output.strip() + character
             continue
+
         output += " "
+
     return output
 
 
 ALPHABET = set("abcdefghijklmnopqrstuvwxyz")
+
+NUMBERS = {
+    "0": ":zero:",
+    "1": ":one:",
+    "2": ":two:",
+    "3": ":three:",
+    "4": ":four:",
+    "5": ":five:",
+    "6": ":six:",
+    "7": ":seven:",
+    "8": ":eight:",
+    "9": ":nine:"
+}
 
 if __name__ == "__main__":
     # Loop until the user doesn't want to convert any more strings
