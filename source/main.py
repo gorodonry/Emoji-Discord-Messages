@@ -23,13 +23,14 @@ def convert(string):
     return (str): The string that will be converted to regional indicators
         by discord.
     """
-    output, processing_emoji = "", False
+    output, processing_emoji, processing_non_emojis = "", False, False
 
     for char_index in range(0, len(string)):
         character = string[char_index]
 
         if character == ":":
             processing_emoji = not processing_emoji
+            processing_non_emojis = False
 
         if processing_emoji and ":" in string[char_index:]:
             output += character
@@ -37,13 +38,16 @@ def convert(string):
 
         if character.lower() in ALPHABET:
             output += f":regional_indicator_{character.lower()}:"
+            processing_non_emojis = False
         elif character in NUMBERS.keys():
             output += NUMBERS[character]
+            processing_non_emojis = False
         elif character == " ":
             output += ":blue_square:"
+            processing_non_emojis = False
         else:
-            output += character
-            continue
+            output = f"{output.strip() if processing_non_emojis else output}{character}"
+            processing_non_emojis = True
 
         output += " "
 
