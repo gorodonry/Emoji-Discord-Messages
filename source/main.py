@@ -42,7 +42,7 @@ def convert(string):
         elif character == " ":
             output += ":blue_square:"
         else:
-            output = output.strip() + character
+            output += character
             continue
 
         output += " "
@@ -69,6 +69,5 @@ if __name__ == "__main__":
     # Loop until the user doesn't want to convert any more strings
     keep_converting = True
     while keep_converting:
-        string_to_convert = input("Enter the string to convert: ")
-        print(convert(string_to_convert))
+        print(convert(input("Enter the string to convert: "))
         keep_converting = ask_yes_no_question("Convert another string? ")
